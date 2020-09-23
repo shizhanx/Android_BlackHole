@@ -36,14 +36,17 @@ public class BlackHoleBoardTest {
     public void testIndexToCoords() {
         BlackHoleBoard b = new BlackHoleBoard();
         Coordinates coords = b.indexToCoords(0);
-        assertEquals(0, coords.x);
-        assertEquals(0, coords.y);
+        assert coords != null;
+        assertEquals(0, coords.getX());
+        assertEquals(0, coords.getY());
         coords = b.indexToCoords(1);
-        assertEquals(0, coords.x);
-        assertEquals(1, coords.y);
-        for (int i = 0; i < b.BOARD_SIZE; i++) {
+        assert coords != null;
+        assertEquals(0, coords.getX());
+        assertEquals(1, coords.getY());
+        for (int i = 0; i < BlackHoleBoard.BOARD_SIZE; i++) {
             coords = b.indexToCoords(i);
-            assertEquals(i, b.coordsToIndex(coords.x, coords.y));
+            assert coords != null;
+            assertEquals(i, b.coordsToIndex(coords.getX(), coords.getY()));
         }
     }
 
