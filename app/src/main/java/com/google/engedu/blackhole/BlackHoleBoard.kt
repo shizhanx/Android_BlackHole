@@ -58,13 +58,14 @@ class BlackHoleBoard {
 
     // This is the inverse of the method above.
     fun indexToCoords(i: Int): Coordinates? {
-        // TODO: Compute the column and row number for the ith location in the array.
-        // The row number is the triangular root of i as explained in wikipedia:
-        // https://en.wikipedia.org/wiki/Triangular_number#Triangular_roots_and_tests_for_triangular_numbers
-        // The column number is i - (the number of tiles in all the previous rows).
-        // This is tricky to compute correctly so use the unit test in BlackHoleBoardTest to get it
-        // right.
-        return null
+        if (i < 0 || i >= BOARD_SIZE) return null
+        var count = 0
+        var row = 1
+        while (count + row < i + 1) {
+            count += row
+            row++
+        }
+        return Coordinates(i - count, row-1)
     }
 
     // Getter for the number of the player's next move.

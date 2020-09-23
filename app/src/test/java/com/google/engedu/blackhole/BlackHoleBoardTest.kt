@@ -12,46 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.google.engedu.blackhole
 
-package com.google.engedu.blackhole;
+import junit.framework.TestCase.assertEquals
+import org.junit.Assert
+import org.junit.Test
 
-import android.util.Pair;
-
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-public class BlackHoleBoardTest {
+class BlackHoleBoardTest {
+    private val b = BlackHoleBoard()
     @Test
-    public void testCoordsToIndex() {
-        BlackHoleBoard b = new BlackHoleBoard();
-        assertEquals(0, b.coordsToIndex(0, 0));
-        assertEquals(1, b.coordsToIndex(0, 1));
-        assertEquals(2, b.coordsToIndex(1, 1));
-        assertEquals(3, b.coordsToIndex(0, 2));
-        assertEquals(4, b.coordsToIndex(1, 2));
-        assertEquals(5, b.coordsToIndex(2, 2));
+    fun testCoordsToIndex() {
+        assertEquals(0, b.coordsToIndex(0, 0))
+        assertEquals(1, b.coordsToIndex(0, 1))
+        assertEquals(2, b.coordsToIndex(1, 1))
+        assertEquals(3, b.coordsToIndex(0, 2))
+        assertEquals(4, b.coordsToIndex(1, 2))
+        assertEquals(5, b.coordsToIndex(2, 2))
     }
 
     @Test
-    public void testIndexToCoords() {
-        BlackHoleBoard b = new BlackHoleBoard();
-        Coordinates coords = b.indexToCoords(0);
-        assert coords != null;
-        assertEquals(0, coords.getX());
-        assertEquals(0, coords.getY());
-        coords = b.indexToCoords(1);
-        assert coords != null;
-        assertEquals(0, coords.getX());
-        assertEquals(1, coords.getY());
-        for (int i = 0; i < BlackHoleBoard.BOARD_SIZE; i++) {
-            coords = b.indexToCoords(i);
-            assert coords != null;
-            assertEquals(i, b.coordsToIndex(coords.getX(), coords.getY()));
+    fun testIndexToCoords() {
+        var coordinate = b.indexToCoords(0)!!
+        Assert.assertEquals(0, coordinate.x.toLong())
+        Assert.assertEquals(0, coordinate.y.toLong())
+        coordinate = b.indexToCoords(1)!!
+        Assert.assertEquals(0, coordinate.x.toLong())
+        Assert.assertEquals(1, coordinate.y.toLong())
+        for (i in 0 until BlackHoleBoard.BOARD_SIZE) {
+            coordinate = b.indexToCoords(i)!!
+            Assert.assertEquals(i.toLong(), b.coordsToIndex(coordinate.x, coordinate.y).toLong())
         }
     }
 
     @Test
-    public void testGetScore() {
+    fun testGetScore() {
         // TODO: Implement this test to verify that your getScore method is working.
     }
 }
