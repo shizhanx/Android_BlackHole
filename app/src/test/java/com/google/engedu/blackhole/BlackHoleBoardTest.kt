@@ -20,6 +20,7 @@ import org.junit.Test
 
 class BlackHoleBoardTest {
     private val b = BlackHoleBoard()
+
     @Test
     fun testCoordsToIndex() {
         assertEquals(0, b.coordsToIndex(0, 0))
@@ -46,6 +47,12 @@ class BlackHoleBoardTest {
 
     @Test
     fun testGetScore() {
-
+        for (i in 0 until BlackHoleBoard.BOARD_SIZE) {
+            b.reset()
+            for (j in 0 until BlackHoleBoard.BOARD_SIZE) {
+                if (j != i) b.tiles[j] = BlackHoleTile(0, 1)
+            }
+            Assert.assertEquals(b.getNeighbors(b.indexToCoords(i)!!).size, -b.score)
+        }
     }
 }

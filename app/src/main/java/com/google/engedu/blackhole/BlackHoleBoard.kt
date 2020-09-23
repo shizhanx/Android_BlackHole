@@ -22,7 +22,7 @@ import kotlin.random.Random
  */
 class BlackHoleBoard {
     // The tiles for this board.
-    private var tiles: Array<BlackHoleTile?>
+    var tiles: Array<BlackHoleTile?>
 
     // Getter for the number of the current player.
     // The number of the current player. 0 for user, 1 for computer.
@@ -131,7 +131,7 @@ class BlackHoleBoard {
         }
 
     // Helper for getScore that finds all the tiles around the given coordinates.
-    private fun getNeighbors(coords: Coordinates): List<BlackHoleTile> {
+    fun getNeighbors(coords: Coordinates): List<BlackHoleTile> {
         val result = mutableListOf<BlackHoleTile>()
         for (pair in NEIGHBORS) {
             val n = safeGetTile(coords.x + pair.x, coords.y + pair.y)
