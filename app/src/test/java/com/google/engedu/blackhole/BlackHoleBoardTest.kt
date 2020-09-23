@@ -46,6 +46,6 @@ class BlackHoleBoardTest {
 
     @Test
     fun testGetScore() {
-        // TODO: Implement this test to verify that your getScore method is working.
+
     }
 }

@@ -65,7 +65,7 @@ class BlackHoleBoard {
             count += row
             row++
         }
-        return Coordinates(i - count, row-1)
+        return Coordinates(i - count, row - 1)
     }
 
     // Getter for the number of the player's next move.
@@ -112,25 +112,29 @@ class BlackHoleBoard {
         nextMove[currentPlayer]++
         currentPlayer++
         currentPlayer %= 2
-    }// TODO: Implement this method to compute the final score for a given board.
+    }
 
-    // Find the empty tile left on the board then add/substract the values of all the
-    // surrounding tiles depending on who the tile belongs to.
-    /* If the game is over, computes the score for the current board by adding up the values of
-     * all the tiles that surround the empty tile.
-     * Otherwise, returns 0.
-     */
     val score: Int
-        get() =// TODO: Implement this method to compute the final score for a given board.
-        // Find the empty tile left on the board then add/substract the values of all the
-                // surrounding tiles depending on who the tile belongs to.
-            0
+        get() {
+            return if (gameOver()) {
+                var ans = 0
+                for (i in tiles.indices) {
+                    if (tiles[i] == null) {
+                        val neighbours = getNeighbors(indexToCoords(i)!!)
+                        for (tile in neighbours) {
+                            if (tile.player == 0) ans -= tile.value else ans += tile.value
+                        }
+                    }
+                }
+                ans
+            } else 0
+        }
 
     // Helper for getScore that finds all the tiles around the given coordinates.
     private fun getNeighbors(coords: Coordinates): List<BlackHoleTile> {
         val result = mutableListOf<BlackHoleTile>()
         for (pair in NEIGHBORS) {
-            val n = safeGetTile(coords.x + pair[0], coords.y + pair[1])
+            val n = safeGetTile(coords.x + pair.x, coords.y + pair.y)
             if (n != null) {
                 result.add(n)
             }
@@ -159,7 +163,7 @@ class BlackHoleBoard {
 
         // Relative position of the neighbors of each tile. This is a little tricky because of the
         // triangular shape of the board.
-        val NEIGHBORS = arrayOf(intArrayOf(-1, -1), intArrayOf(0, -1), intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, 1), intArrayOf(1, 1))
+        val NEIGHBORS = arrayOf(Coordinates(-1, -1), Coordinates(0, -1), Coordinates(-1, 0), Coordinates(1, 0), Coordinates(0, 1), Coordinates(1, 1))
 
         // When we get to the Monte Carlo method, this will be the number of games to simulate.
         private const val NUM_GAMES_TO_SIMULATE = 2000
