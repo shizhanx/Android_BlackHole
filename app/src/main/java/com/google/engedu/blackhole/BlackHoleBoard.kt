@@ -14,6 +14,7 @@
  */
 package com.google.engedu.blackhole
 
+import android.util.Log
 import java.util.*
 import kotlin.random.Random
 
@@ -100,10 +101,25 @@ class BlackHoleBoard {
 
     // Pick a good move for the computer to make. Returns the array index of the position to play.
     fun pickMove(): Int {
-        // TODO: Implement this method have the computer make a move.
-        // At first, we'll just invoke pickRandomMove (above) but later, you'll need to replace
-        // it with an algorithm that uses the Monte Carlo method to pick a good move.
-        return pickRandomMove()
+        val map = mutableMapOf<Int, MutableList<Int>>()
+        for (simulation in 1..NUM_GAMES_TO_SIMULATE) {
+            val simulate = BlackHoleBoard().apply {
+                copyBoardState(this@BlackHoleBoard)
+            }
+            var firstMove = -1
+            while (!simulate.gameOver()) {
+                val move = simulate.pickRandomMove()
+                firstMove = if (firstMove == -1) move else firstMove
+                simulate.setValue(move)
+            }
+            map.putIfAbsent(firstMove, mutableListOf())
+            map[firstMove]!!.add(simulate.score)
+//        Log.d("sb", simulate.tiles.filterNotNull().size.toString())
+        }
+        return map.minByOrNull {
+            it.value.average()
+        }!!.key
+//        return pickRandomMove()
     }
 
     // Makes the next move on the board at position i. Automatically updates the current player.
